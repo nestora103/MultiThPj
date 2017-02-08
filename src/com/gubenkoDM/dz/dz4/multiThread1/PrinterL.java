@@ -19,7 +19,11 @@ public class PrinterL implements Runnable {
 
     }
 
-    private void print(String str){
+    public PrinterL() {
+
+    }
+
+    public void print(String str){
         synchronized (mon){
             for (int i = 0; i < 3 ; i++) {
 

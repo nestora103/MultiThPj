@@ -7,11 +7,15 @@ import java.util.Arrays;
  * Created by Nestor on 07.02.2017.
  */
 public class MainClass {
-
-
     public static void main(String[] args) {
         System.out.println("Task 1");
-        new PrinterL(new ArrayList<>(Arrays.asList("A", "B", "C")));
+
+        PrinterL pr=new PrinterL();
+
+        //new PrinterL(new ArrayList<>(Arrays.asList("A", "B", "C")));
+
+        new Thread(()->{pr.print("A");});
+
 
         Thread t1=new Thread(new PrinterL("A"));
         Thread t2=new Thread(new PrinterL("B"));
