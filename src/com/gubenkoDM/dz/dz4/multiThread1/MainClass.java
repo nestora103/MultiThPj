@@ -6,22 +6,52 @@ import java.util.Arrays;
 /**
  * Created by Nestor on 07.02.2017.
  */
-public class MainClass {
-    public static void main(String[] args) {
-        System.out.println("Task 1");
+public class MainClass implements Runnable{
+    private final Object monG=new Object();
+    private boolean finishFlag=false;
 
-        PrinterL pr=new PrinterL();
+    public static void main(String[] args) throws InterruptedException {
+        MainClass main=new MainClass();
 
-        //new PrinterL(new ArrayList<>(Arrays.asList("A", "B", "C")));
+        new Thread(()->main.runTask1()).start();
+        new Thread(()->main.runTask2()).start();
+    }
 
-        new Thread(()->{pr.print("A");});
+    private synchronized void runTask1(){
+        synchronized (monG){
+            System.out.println("Task 1");
+
+            //new PrinterL(new ArrayList<>(Arrays.asList("A", "B", "C")));
+
+            PrinterL pr=new PrinterL(new ArrayList<>(Arrays.asList("A", "B", "C")),5,finishFlag);
+
+            new Thread(()->{pr.print("A");}).start();
+            new Thread(()->{pr.print("B");}).start();
+            new Thread(()->{pr.print("C");}).start();
+
+            try {
+                //подождем пока порожденные этим потоком дочерние потоки закончат свою работу
+                while (!pr.isFinishFlag()){
+                    Thread.sleep(1);
+                }
 
 
-        Thread t1=new Thread(new PrinterL("A"));
-        Thread t2=new Thread(new PrinterL("B"));
-        Thread t3=new Thread(new PrinterL("C"));
-        t1.start();
-        t2.start();
-        t3.start();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private synchronized void runTask2(){
+        synchronized (monG){
+            System.out.println("");
+            System.out.println("Task 2");
+        }
+    }
+
+
+    @Override
+    public void run() {
+
     }
 }
