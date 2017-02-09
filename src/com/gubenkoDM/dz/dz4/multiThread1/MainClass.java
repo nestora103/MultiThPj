@@ -27,6 +27,7 @@ public class MainClass implements Runnable{
 
         new Thread(()->main.runTask1()).start();
         new Thread(()->main.runTask2()).start();
+        new Thread(()->main.runTask3()).start();
     }
 
     private void runTask1(){
@@ -97,6 +98,17 @@ public class MainClass implements Runnable{
             e.printStackTrace();
         }
     }
+
+    private void runTask3(){
+        synchronized (monG){
+            System.out.println("\nTask 3");
+            MFU mfu=new MFU();
+            new Thread(()->mfu.print(100)).start();
+            new Thread(()->mfu.scan(50)).start();
+
+        }
+    }
+
 
 
     @Override

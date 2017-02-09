@@ -6,11 +6,11 @@ package com.gubenkoDM.dz.dz4.multiThread1;
 public class MFU {
     private final int outPeriod=50;
 
-    private void print(String str){
+    public void print(int printPageNumber){
 
     }
 
-    private void scan(){
+    public void scan(int scanPageNumber){
 
     }
 }
